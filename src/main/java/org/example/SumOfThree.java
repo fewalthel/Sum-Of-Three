@@ -3,13 +3,16 @@
  * Description: Class contains a method that checks for the presence of numbers
  * in three arrays such that their sum is zero
  * Author: Berezhnaya Svetlana
- * Date: 1.05.2024
+ * Date: 2.05.2024
  */
 package org.example;
-
 import java.util.Arrays;
 
 public class SumOfThree {
+    public static int f; //первое число в тройке
+    public static int s; //второе число в тройке
+    public static int t; //третье число в тройке
+
     /**
      * Checks a sum of three numbers from three arrays
      * @param A is first array
@@ -40,7 +43,9 @@ public class SumOfThree {
                 } else if (j + second[k] + third[n] > 0) { //если сумма > 0, то необходимо рассмотреть число < third[n]
                     n--;
                 } else { //если сумма = 0, прерываем цикл
-                    result = true; break;
+                    result = true;
+                    f = j; s = second[k]; t = third[n];
+                    break;
                 }
             }
             if (result) { break; }

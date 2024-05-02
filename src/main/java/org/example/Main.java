@@ -2,19 +2,16 @@
  * File: Main.java
  * Description: General class in project
  * Author: Berezhnaya Svetlana
- * Date: 1.05.2024
+ * Date: 2.05.2024
  */
 
 package org.example;
 import java.util.Scanner;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.Math;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //выбираем числовой диапазон для рандомных чисел в массиве
         Scanner scan = new Scanner(System.in);
         System.out.println("Выберите минимальное число в массиве");
@@ -37,8 +34,11 @@ public class Main {
 
             long finish = System.nanoTime();
             long elapsed = finish - start;
-            writeArraysToCSV("info.csv", A, B, C);
-            writeTimeToCSV("info.csv", elapsed);
+            String filename = "./info" + i + ".csv";
+
+            Write.writeArraysToCSV(filename, A, B, C);
+            Write.writeNumbersToCSV(filename, SumOfThree.f, SumOfThree.s, SumOfThree.t, result);
+            Write.writeTimeToCSV(filename, elapsed);
         }
     }
 
@@ -58,7 +58,7 @@ public class Main {
         int[] array = new int[size];
 
         //заполнение массива рандомными числами в указанном диапазоне
-        if (minNum > maxNum || minNum < 0) {
+        if (minNum > maxNum ) {
             System.out.println("неподходящие параметры для чисел массива"); return null;
         }
         for (int j = 0; j < array.length; j ++) {
@@ -66,49 +66,4 @@ public class Main {
         }
         return array;
     }
-
-
-    /**
-     * A method for writing arrays data to csv file
-     * @param fileName is of the file to which the data is being written
-     * @param array1 is first array from where the data is read
-     * @param array2 is second array from where the data is read
-     * @param array3 is third array from where the data is read
-     */
-    public static void writeArraysToCSV(String fileName, int[] array1, int[] array2, int[] array3) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-            writer.write("Для массивов: [");
-            // Записываем элементы первого массива
-            for (int num : array1) { writer.write(num + " ");}
-            writer.write("] [");
-
-            // Записываем элементы второго массива
-            for (int num : array2) { writer.write(num + " ");}
-            writer.write("] [");
-
-            // Записываем элементы третьего массива
-            for (int num : array3) { writer.write(num + " ");}
-            writer.write("]");
-            writer.close();
-        } catch (IOException e) {
-            System.out.println(e); // Выводим ошибку в консоль
-        }
-    }
-
-    /**
-     * A method for writing time data to csv file
-     * @param fileName is of the file to which the data is being written
-     * @param result is data is being written
-     */
-    public static void writeTimeToCSV(String fileName, long result) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
-            writer.write(" - "+result+" наносек.\n"); // Записываем значение переменной на следующей строке
-            writer.close();
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
-
 }
